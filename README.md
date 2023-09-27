@@ -5,7 +5,7 @@ Cli is a Python library to help create command-line interfaces with ease.
 # Installation
 
 ```bash
-pip install https://github.com/HashLDash/cli
+pip install git+https://github.com/HashLDash/cli
 ```
 
 # Usage
@@ -28,6 +28,15 @@ This would add two commands that can be called like:
 $ python command.py hello
 Hello, World!
 $ python command.py add 5 4
+Adding 5 + 4 = 9
+```
+
+You can also add shebangs, ommit the extension and link to your path to create a command for using like:
+
+```bash
+$ command hello
+Hello, World!
+$ command add 5 4
 Adding 5 + 4 = 9
 ```
 
