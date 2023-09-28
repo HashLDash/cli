@@ -4,7 +4,19 @@ import os
 import builtins
 
 route = ' '.join(sys.argv[1:])
-routes = {}
+
+def cli_help():
+    print(f'{sys.argv[0]} help')
+    print()
+    for route in routes:
+        if 'doc' in routes[route]:
+            print(f'    {route} - {routes[route]["doc"].strip()}')
+                
+routes = {
+    'help':{'func':cli_help},
+    '-h':{'func':cli_help},
+    '--help':{'func':cli_help},
+}
 
 def cli(route, methods=None):
     def decorator(f):
@@ -15,7 +27,7 @@ def cli(route, methods=None):
                 tb = traceback.format_exc().replace('"', '\"').replace("'", "\'")
                 print(tb, file=sys.stderr)
                 return
-        routes[route] = wrapped
+        routes[route] = {'func':wrapped, 'doc':f.__doc__}
         return wrapped
     return decorator
 
@@ -76,7 +88,7 @@ def parseRoute(pattern, command):
         # Route {pattern} is compatible with {command}
         return variables, ' '.join(pattern)
     return None, None
-                
+
 def run():
     global route
     variables = {}
@@ -88,6 +100,6 @@ def run():
                 break
         else:
             print('Invalid command.')
-    routes[route](**variables)
+    routes[route]['func'](**variables)
 
 atexit.register(run)
