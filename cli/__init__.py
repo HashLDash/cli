@@ -3,7 +3,8 @@ import atexit
 import os
 import builtins
 
-route = ' '.join(sys.argv[1:])
+#route = ' '.join(sys.argv[1:])
+route = sys.argv[1:]
 
 def cli_help():
     print(f'{sys.argv[0]} help')
@@ -61,7 +62,7 @@ def checkArgsLen(command, pattern, variables):
 
 def parseRoute(pattern, command):
     pattern = pattern.split(' ')
-    command = command.split(' ')
+    #command = command.split(' ')
     path = ''
     offset = 0
     variables = {}
@@ -92,7 +93,7 @@ def parseRoute(pattern, command):
 def run():
     global route
     variables = {}
-    if not route in routes:
+    if not ' '.join(route) in routes:
         for r in routes:
             variables, rule = parseRoute(r, route)
             if rule is not None:
@@ -100,6 +101,9 @@ def run():
                 break
         else:
             print('Invalid command.')
+            return
+    else:
+        route = ' '.join(route)
     routes[route]['func'](**variables)
 
 atexit.register(run)
