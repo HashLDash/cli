@@ -3,8 +3,9 @@ import atexit
 import os
 import builtins
 
-#route = ' '.join(sys.argv[1:])
 route = sys.argv[1:]
+if len(route) == 0:
+    route = ['help']
 
 def cli_help():
     print(f'{sys.argv[0]} help')
@@ -28,7 +29,9 @@ def cli(route, methods=None):
                 tb = traceback.format_exc().replace('"', '\"').replace("'", "\'")
                 print(tb, file=sys.stderr)
                 return
-        routes[route] = {'func':wrapped, 'doc':f.__doc__}
+        routes[route] = {'func':wrapped}
+        if f.__doc__:
+            routes[route]['doc'] = f.__doc__
         return wrapped
     return decorator
 
@@ -62,7 +65,6 @@ def checkArgsLen(command, pattern, variables):
 
 def parseRoute(pattern, command):
     pattern = pattern.split(' ')
-    #command = command.split(' ')
     path = ''
     offset = 0
     variables = {}
