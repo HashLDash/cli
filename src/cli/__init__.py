@@ -3,6 +3,8 @@ import atexit
 import os
 import builtins
 
+__version__ = '0.0.2'
+
 route = sys.argv[1:]
 if len(route) == 0:
     route = ['help']
