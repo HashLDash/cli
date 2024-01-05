@@ -61,7 +61,6 @@ def isCompatible(pattern, part):
     return None
 
 def checkArgsLen(command, pattern, variables):
-    print(len(command), len(pattern), len(variables))
     if len(command) == len(pattern):
         return True
     return False
@@ -115,9 +114,14 @@ def run():
             return
     else:
         route = ' '.join(route)
-    if kwargs:
-        routes[route]['func'](**variables, **kwargs)
-    else:
-        routes[route]['func'](**variables)
+    try:
+        if kwargs:
+            routes[route]['func'](**variables, **kwargs)
+        else:
+            routes[route]['func'](**variables)
+    except Exception as e:
+        import traceback
+        #print(traceback.format_exc())
+        print('Bad')
 
 atexit.register(run)
