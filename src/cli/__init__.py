@@ -2,8 +2,9 @@ import sys
 import atexit
 import os
 import builtins
+import traceback
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 route = sys.argv[1:]
 if len(route) == 0:
@@ -97,6 +98,12 @@ def parseRoute(pattern, command):
 def run():
     global route
     variables = {}
+    kwargs = {}
+    for arg in route.copy():
+        if '=' in arg and not ' ' in arg:
+            name, val = arg.split('=')
+            kwargs[name.strip()] = val.strip()
+            route.remove(arg) 
     if not ' '.join(route) in routes:
         for r in routes:
             variables, rule = parseRoute(r, route)
@@ -108,6 +115,6 @@ def run():
             return
     else:
         route = ' '.join(route)
-    routes[route]['func'](**variables)
+    routes[route]['func'](**variables, **kwargs)
 
 atexit.register(run)
