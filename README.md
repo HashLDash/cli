@@ -44,11 +44,11 @@ Hello, World!
 $ command add 5 4
 Adding 5 + 4 = 9
 ```
+You can also pass keyword arguments, and those will be delivered to your function aswell.
 
 # TODO
 
 This is still in development. The following is planned:
-- Handling of keyword arguments
 - Increase supported types
 
 Feel free to open issues for bugs and feature requests.
