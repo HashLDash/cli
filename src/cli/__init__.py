@@ -115,6 +115,9 @@ def run():
             return
     else:
         route = ' '.join(route)
-    routes[route]['func'](**variables, **kwargs)
+    if kwargs:
+        routes[route]['func'](**variables, **kwargs)
+    else:
+        routes[route]['func'](**variables)
 
 atexit.register(run)
