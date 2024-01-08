@@ -119,9 +119,7 @@ def run():
             routes[route]['func'](**variables, **kwargs)
         else:
             routes[route]['func'](**variables)
-    except Exception as e:
-        import traceback
-        #print(traceback.format_exc())
-        print('Bad')
+    except SystemExit as e:
+        atexit.set_exit_code = e
 
 atexit.register(run)
