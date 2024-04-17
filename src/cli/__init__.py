@@ -99,7 +99,7 @@ def run():
     variables = {}
     kwargs = {}
     for arg in route.copy():
-        if '=' in arg and not ' ' in arg:
+        if '=' in arg:
             name, val = arg.split('=')
             kwargs[name.strip()] = val.strip()
             route.remove(arg) 
