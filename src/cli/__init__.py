@@ -4,9 +4,11 @@ import os
 import builtins
 import traceback
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
-route = sys.argv[1:]
+route = [r for r in sys.argv[1:] if not r.startswith('-')]
+flags = [flag for flag in sys.argv[1:] if flag.startswith('-')]
+
 if len(route) == 0:
     route = ['help']
 
