@@ -12,12 +12,15 @@ flags = [flag for flag in sys.argv[1:] if flag.startswith('-')]
 if len(route) == 0:
     route = ['help']
 
-def cli_help():
+def cli_help(subcommand=None):
     print(f'{sys.argv[0]} help')
+    if subcommand is not None:
+        print(f'Help for subcommand {subcommand}')
     print()
     for route in routes:
-        if 'doc' in routes[route]:
-            print(f'    {route} - {routes[route]["doc"].strip()}')
+        if subcommand is None or route.startswith(subcommand):
+            if 'doc' in routes[route]:
+                print(f'    {route} - {routes[route]["doc"].strip()}')
                 
 routes = {
     'help':{'func':cli_help},
@@ -98,10 +101,13 @@ def parseRoute(pattern, command):
 
 def run():
     global route
+    if route[-1] == 'help':
+        cli_help(subcommand=' '.join(route[:-1]))
+        return
     variables = {}
     kwargs = {}
     for arg in route.copy():
-        if '=' in arg:
+        if '=' in arg and not ' ' in arg:
             name, val = arg.split('=')
             kwargs[name.strip()] = val.strip()
             route.remove(arg) 
